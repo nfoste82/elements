@@ -29,6 +29,7 @@ namespace Elements
             {
                 // Adjacent space has no air so we need to create some
                 air = otherSpace.AddType<Air>();
+                air.m_amountRemaining = 0.0f;
             }
             
             float difference = m_amountRemaining - air.m_amountRemaining;
