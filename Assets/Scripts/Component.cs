@@ -28,7 +28,23 @@ namespace Elements
             }
         }
 
+        public void UpdateSpread(Dictionary<ComponentType, Component> otherInteractions)
+        {
+            InternalUpdateSpread(otherInteractions);
+            
+            m_amountRemaining = Mathf.Clamp(m_amountRemaining, 0.0f, 1.0f);
+
+            if (m_amountRemaining == 0.0f)
+            {
+                FlagForDestroying();
+            }
+        }
+
         protected virtual void InternalUpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        {
+        }
+
+        protected virtual void InternalUpdateSpread(Dictionary<ComponentType, Component> otherInteractions)
         {
         }
 
@@ -36,8 +52,9 @@ namespace Elements
         {
             m_needsDestroying = true;
         }
-        
-        public ComponentType m_componentType;
+
+        public ComponentType ComponentType { get; protected set; }
+
         public bool m_needsDestroying;
         public float m_amountRemaining = 1.0f;
     }

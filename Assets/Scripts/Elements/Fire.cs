@@ -35,5 +35,10 @@ namespace Elements
                 m_amountRemaining -= Time.deltaTime * 0.2f;    
             }
         }
+        
+        public void Start()
+        {
+            ComponentType = ComponentType.Fire;
+        }
     }
 }

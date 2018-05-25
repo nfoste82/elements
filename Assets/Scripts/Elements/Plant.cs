@@ -44,5 +44,10 @@ namespace Elements
                 }
             }
         }
+        
+        public void Start()
+        {
+            ComponentType = ComponentType.Plant;
+        }
     }
 }
