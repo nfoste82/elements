@@ -28,9 +28,9 @@ namespace Elements
             }
         }
 
-        public void UpdateSpread(Dictionary<ComponentType, Component> otherInteractions)
+        public void UpdateSpread(GridSpace otherSpace)
         {
-            InternalUpdateSpread(otherInteractions);
+            InternalUpdateSpread(otherSpace);
             
             m_amountRemaining = Mathf.Clamp(m_amountRemaining, 0.0f, 1.0f);
 
@@ -44,7 +44,7 @@ namespace Elements
         {
         }
 
-        protected virtual void InternalUpdateSpread(Dictionary<ComponentType, Component> otherInteractions)
+        protected virtual void InternalUpdateSpread(GridSpace otherSpace)
         {
         }
 

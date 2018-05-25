@@ -96,7 +96,7 @@ namespace Elements
         {
             foreach (var component in m_components)
             {
-                component.Value.UpdateSpread(other.m_components);
+                component.Value.UpdateSpread(other);
             }
         }
 
@@ -129,8 +129,7 @@ namespace Elements
             }
         }
         
-        [SerializeField]
-        private GameObject m_object;
+        public GameObject m_object;
 
         public Dictionary<ComponentType, Component> m_components = new Dictionary<ComponentType, Component>();
     }

@@ -19,29 +19,33 @@ namespace Elements
             }
         }
 
-        protected override void InternalUpdateSpread(Dictionary<ComponentType, Component> otherInteractions)
+        protected override void InternalUpdateSpread(GridSpace otherSpace)
         {
+            // Air -> Air spread
             Component air;
-            if (otherInteractions.TryGetValue(ComponentType.Air, out air))
+            if (!otherSpace.m_components.TryGetValue(ComponentType.Air, out air))
             {
-                float difference = m_amountRemaining - air.m_amountRemaining;
+                // Adjacent space has no air so we need to create some
+                air = otherSpace.m_object.AddComponent<Air>();
+            }
+            
+            float difference = m_amountRemaining - air.m_amountRemaining;
                 
-                // If the two spaces are close to a pressure equilibrium then don't bother doing anything.
-                if (Mathf.Abs(difference) > 0.01f)
-                {
-                    float average = (m_amountRemaining + air.m_amountRemaining) * 0.5f;
+            // If the two spaces are close to a pressure equilibrium then don't bother doing anything.
+            if (Mathf.Abs(difference) > 0.01f)
+            {
+                float average = (m_amountRemaining + air.m_amountRemaining) * 0.5f;
                 
-                    // Our air increases/decreases based on the adjacent space.
-                    float oldAmount = m_amountRemaining;
-                    float newAmount = Mathf.Lerp(m_amountRemaining, average, Time.deltaTime * 0.1f);
+                // Our air increases/decreases based on the adjacent space.
+                float oldAmount = m_amountRemaining;
+                float newAmount = Mathf.Lerp(m_amountRemaining, average, Time.deltaTime * 0.25f);
                     
-                    float delta = (newAmount - oldAmount);
+                float delta = (newAmount - oldAmount);
                     
-                    m_amountRemaining += delta;
+                m_amountRemaining += delta;
                     
-                    // The delta moves to/from the adjacent space
-                    air.m_amountRemaining -= delta;
-                }
+                // The delta moves to/from the adjacent space
+                air.m_amountRemaining -= delta;
             }
         }
 
