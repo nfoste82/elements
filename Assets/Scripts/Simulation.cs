@@ -86,7 +86,7 @@ namespace Elements
 
             foreach (var component in components)
             {
-                component.UpdateChemistry(m_components);
+                component.UpdateChemistry(this);
             }
 
             HandleDestroyStatus();
@@ -127,6 +127,18 @@ namespace Elements
                     m_components.Remove(componentType);
                 }
             }
+        }
+
+        public TComponent AddType<TComponent>() where TComponent : Component
+        {
+            var component = m_object.GetComponent<TComponent>();
+            if (component == null)
+            {
+                m_object.AddComponent<TComponent>();
+                component = m_object.GetComponent<TComponent>();
+            }
+
+            return component;
         }
         
         public GameObject m_object;

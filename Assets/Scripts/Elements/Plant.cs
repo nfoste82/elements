@@ -5,8 +5,10 @@ namespace Elements
 {
     public class Plant : Element
     {
-        protected override void InternalUpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        protected override void InternalUpdateChemistry(GridSpace selfSpace)
         {
+            var interactions = selfSpace.m_components;
+            
             // Fire burns some of the plant
             if (interactions.ContainsKey(ComponentType.Fire))
             {
@@ -18,30 +20,31 @@ namespace Elements
                 
                 m_amountRemaining -= Time.deltaTime * 0.1f;
             }
-
-            // If there's no air present the plant suffocates slowly
-            if (!interactions.ContainsKey(ComponentType.Air))
+            
+            // Plants create air
+            Component air = null;
+            if (!interactions.TryGetValue(ComponentType.Air, out air))
             {
-                Debug.Log("Plant is suffocating due to lack of air.");
+                // If no air exists then create some
+                air = selfSpace.AddType<Air>();
+            }
+
+            // 1000 seconds to fill a grid space with air, if the plant is full size
+            air.m_amountRemaining += Time.deltaTime * 0.001f * m_amountRemaining;
+            
+            if (interactions.ContainsKey(ComponentType.Water))
+            {
+                Debug.Log("Plant growing because water is present.");
                 
-                m_amountRemaining -= Time.deltaTime * 0.03f;
+                // TODO: Could also require light to grow
+                
+                m_amountRemaining += Time.deltaTime * 0.001f;
             }
             else
             {
-                if (interactions.ContainsKey(ComponentType.Water))
-                {
-                    Debug.Log("Plant growing because water and air are both present.");
-                    
-                    // TODO: Could also require light to grow
-                    
-                    m_amountRemaining += Time.deltaTime * 0.005f;
-                }
-                else
-                {
-                    Debug.Log("Plant wilting because water is not present.");
-                    
-                    m_amountRemaining -= Time.deltaTime * 0.001f;
-                }
+                Debug.Log("Plant wilting because water is not present.");
+                
+                m_amountRemaining -= Time.deltaTime * 0.001f;
             }
         }
         

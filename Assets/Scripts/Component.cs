@@ -16,9 +16,9 @@ namespace Elements
     
     public class Component : MonoBehaviour
     {
-        public void UpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        public void UpdateChemistry(GridSpace selfSpace)
         {
-            InternalUpdateChemistry(interactions);   
+            InternalUpdateChemistry(selfSpace);   
             
             m_amountRemaining = Mathf.Clamp(m_amountRemaining, 0.0f, 1.0f);
 
@@ -40,7 +40,7 @@ namespace Elements
             }
         }
 
-        protected virtual void InternalUpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        protected virtual void InternalUpdateChemistry(GridSpace selfSpace)
         {
         }
 

@@ -6,8 +6,10 @@ namespace Elements
 {
     public class Air : Element
     {
-        protected override void InternalUpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        protected override void InternalUpdateChemistry(GridSpace selfSpace)
         {
+            var interactions = selfSpace.m_components;
+            
             // Fire burns some of the air
             if (interactions.ContainsKey(ComponentType.Fire))
             {
@@ -26,7 +28,7 @@ namespace Elements
             if (!otherSpace.m_components.TryGetValue(ComponentType.Air, out air))
             {
                 // Adjacent space has no air so we need to create some
-                air = otherSpace.m_object.AddComponent<Air>();
+                air = otherSpace.AddType<Air>();
             }
             
             float difference = m_amountRemaining - air.m_amountRemaining;

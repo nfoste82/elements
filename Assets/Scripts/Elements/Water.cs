@@ -5,11 +5,13 @@ namespace Elements
 {
     public class Water : Element
     {
-        protected override void InternalUpdateChemistry(Dictionary<ComponentType, Component> interactions)
+        protected override void InternalUpdateChemistry(GridSpace selfSpace)
         {
+            var interactions = selfSpace.m_components;
+            
             if (interactions.ContainsKey(ComponentType.Plant))
             {
-                // Plants consume water
+                // Water is consumed by plants
                 m_amountRemaining -= Time.deltaTime * 0.0001f;
             }
         }
