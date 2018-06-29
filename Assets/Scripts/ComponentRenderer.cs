@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ namespace Elements
     {
         private Image Background => gameObject.transform.FindDeepChild("Background").GetComponent<Image>();
         private Image Plant => gameObject.transform.FindDeepChild("Plant").GetComponent<Image>();
+        private Image Fire => gameObject.transform.FindDeepChild("Fire").GetComponent<Image>();
+        private Image Smoke => gameObject.transform.FindDeepChild("Smoke").GetComponent<Image>();
 
         private GridSpace m_space;
         private readonly Dictionary<ComponentType, float> m_amountsRemaining = new Dictionary<ComponentType, float>();
@@ -72,6 +75,25 @@ namespace Elements
                     
                     var scale = Mathf.Lerp(0.1f, 1.0f, newValue);
                     plant.transform.localScale = new Vector3(scale, scale, 1.0f);
+                }
+                    break;
+                case ComponentType.Fire:
+                {
+                    var fire = Fire;
+                    
+                    fire.gameObject.SetActive(newValue != 0.0f);
+                    
+                    var scale = Mathf.Lerp(0.1f, 1.0f, newValue);
+                    fire.transform.localScale = new Vector3(scale, scale, 1.0f);
+                    
+                    // If there's plant and air around then we need smoke
+                    bool hasSmoke = m_amountsRemaining.ContainsKey(ComponentType.Air) && m_amountsRemaining.ContainsKey(ComponentType.Plant);
+                    
+                    var smoke = Smoke;                        
+                    smoke.gameObject.SetActive(hasSmoke && newValue != 0.0f);
+                    
+                    var smokeScale = Mathf.Lerp(0.3f, 1.0f, newValue);
+                    smoke.transform.localScale = new Vector3(smokeScale, smokeScale, 1.0f);
                 }
                     break;
             }
