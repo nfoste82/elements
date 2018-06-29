@@ -5,6 +5,17 @@ namespace Elements
 {
     public class Simulation : MonoBehaviour
     {
+        public void Start()
+        {
+            for (int i = 0; i < m_grid.Length; ++i)
+            {
+                for (int j = 0; j < m_grid[i].m_row.Length; ++j)
+                {
+                    m_grid[i].m_row[j].AddRenderer();
+                }
+            }
+        }
+        
         public void Update()
         {
             // Simulate each grid space individually
@@ -139,6 +150,15 @@ namespace Elements
             }
 
             return component;
+        }
+
+        public void AddRenderer()
+        {
+            var gridObj = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/GridSpace"));           
+            gridObj.transform.SetParent(m_object.transform, false);
+            
+            var renderer = gridObj.GetComponent<ComponentRenderer>();
+            renderer.InitializeSpace(this);
         }
         
         public GameObject m_object;
