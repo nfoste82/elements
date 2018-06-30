@@ -12,7 +12,7 @@ namespace Elements
             if (interactions.ContainsKey(ComponentType.Plant))
             {
                 // Water is consumed by plants
-                m_amountRemaining -= Time.deltaTime * 0.0001f;
+                m_amountRemaining -= Simulation.DeltaTime * 0.001f;
             }
         }
         
@@ -36,7 +36,7 @@ namespace Elements
                 
                 // Water increases/decreases based on the adjacent space.
                 float oldAmount = m_amountRemaining;
-                float newAmount = Mathf.Lerp(m_amountRemaining, average, Time.deltaTime * 0.25f);
+                float newAmount = Mathf.Lerp(m_amountRemaining, average, Simulation.DeltaTime * 0.25f);
                     
                 float delta = (newAmount - oldAmount);
                     

@@ -21,7 +21,7 @@ namespace Elements
             if (!interactions.ContainsKey(ComponentType.Air))
             {
                 Debug.Log("Fire weakening due to lack of air.");
-                m_amountRemaining -= Time.deltaTime * 0.2f;
+                m_amountRemaining -= Simulation.DeltaTime * 0.2f;
             }            
             
             // If we have no plant material (fuel) then we reduce the fire strength. If fuel
@@ -29,12 +29,12 @@ namespace Elements
             if (interactions.ContainsKey(ComponentType.Plant))
             {
                 Debug.Log("Fire continuing to burn fuel.");
-                m_amountRemaining += Time.deltaTime * 0.1f;
+                m_amountRemaining += Simulation.DeltaTime * 0.1f;
             }
             else
             {
                 Debug.Log("Fire weakening due to lack of fuel.");
-                m_amountRemaining -= Time.deltaTime * 0.2f;    
+                m_amountRemaining -= Simulation.DeltaTime * 0.2f;    
             }
         }
         
@@ -51,7 +51,7 @@ namespace Elements
             float roll = Random.Range(0.0f, m_amountRemaining);
             
             // 25% chance per second (if fire is full strength)
-            float odds = 1 - 0.25f * Time.deltaTime;
+            float odds = 1 - 0.25f * Simulation.DeltaTime;
 
             // If we didn't beat the odds then the fire doesn't spread yet
             if (roll < odds)
@@ -101,7 +101,7 @@ namespace Elements
                 float average = (m_amountRemaining + fire.m_amountRemaining) * 0.5f;
                 
                 float oldAmount = m_amountRemaining;
-                float newAmount = Mathf.Lerp(m_amountRemaining, average, Time.deltaTime * 0.05f);
+                float newAmount = Mathf.Lerp(m_amountRemaining, average, Simulation.DeltaTime * 0.05f);
                     
                 float delta = (newAmount - oldAmount);
                     

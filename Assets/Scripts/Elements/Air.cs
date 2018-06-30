@@ -17,7 +17,7 @@ namespace Elements
                 
                 // TODO: Could reduce the amount of air based on the amount of fire.
                 
-                m_amountRemaining -= Time.deltaTime * 0.2f;
+                m_amountRemaining -= Simulation.DeltaTime * 0.2f;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Elements
                 
                 // Our air increases/decreases based on the adjacent space.
                 float oldAmount = m_amountRemaining;
-                float newAmount = Mathf.Lerp(m_amountRemaining, average, Time.deltaTime * 0.25f);
+                float newAmount = Mathf.Lerp(m_amountRemaining, average, Simulation.DeltaTime * 0.25f);
                     
                 float delta = (newAmount - oldAmount);
                     

@@ -18,7 +18,7 @@ namespace Elements
                 
                 // TODO: Burn rate of plant could depend on the type of plant
                 
-                m_amountRemaining -= Time.deltaTime * 0.1f;
+                m_amountRemaining -= Simulation.DeltaTime * 0.1f;
             }
             
             // Plants create air
@@ -30,7 +30,7 @@ namespace Elements
             }
 
             // 1000 seconds to fill a grid space with air, if the plant is full size
-            air.m_amountRemaining += Time.deltaTime * 0.001f * m_amountRemaining;
+            air.m_amountRemaining += Simulation.DeltaTime * 0.001f * m_amountRemaining;
             
             if (interactions.ContainsKey(ComponentType.Water))
             {
@@ -38,13 +38,13 @@ namespace Elements
                 
                 // TODO: Could also require light to grow
                 
-                m_amountRemaining += Time.deltaTime * 0.001f;
+                m_amountRemaining += Simulation.DeltaTime * 0.001f;
             }
             else
             {
                 Debug.Log("Plant wilting because water is not present.");
                 
-                m_amountRemaining -= Time.deltaTime * 0.001f;
+                m_amountRemaining -= Simulation.DeltaTime * 0.0025f;
             }
         }
         

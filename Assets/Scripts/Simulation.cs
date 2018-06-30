@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Elements
 {
     public class Simulation : MonoBehaviour
     {
+        public static float DeltaTime
+        {
+            get { return Time.deltaTime * Config.m_deltaTimeModifier;  }
+        }
+        
         public void Start()
         {
             for (int i = 0; i < m_grid.Length; ++i)
