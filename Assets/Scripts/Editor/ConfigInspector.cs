@@ -1,6 +1,4 @@
 ﻿#if UNITY_EDITOR
-using Elements;
-using UnityEngine;
 using UnityEditor;
 
 namespace Elements
@@ -10,7 +8,7 @@ namespace Elements
     {
         public override void OnInspectorGUI()
         {
-            Config.m_deltaTimeModifier = UnityEditor.EditorGUILayout.Slider("Delta Time Modifier", Config.m_deltaTimeModifier, 0.0f, 100.0f);
+            Config.m_deltaTimeModifier = EditorGUILayout.Slider("Delta Time Modifier", Config.m_deltaTimeModifier, 0.0f, 100.0f);
         }
     }
 }

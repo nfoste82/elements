@@ -35,7 +35,7 @@ namespace Elements
                 if (m_amountsRemaining.TryGetValue(kvp.Key, out amount))
                 {
                     // If the difference is large enough to warrant an update
-                    if (Math.Abs(amount - kvp.Value.m_amountRemaining) > 0.02)
+                    if (Math.Abs(amount - kvp.Value.m_amountRemaining) > 0.01)
                     {
                         m_amountsRemaining[kvp.Key] = kvp.Value.m_amountRemaining;
                         UpdateRenderForComponentType(kvp.Key, amount, kvp.Value.m_amountRemaining);
