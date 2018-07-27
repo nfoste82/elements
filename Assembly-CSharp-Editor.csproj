@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\ConfigInspector.cs" />
+    <Compile Include="Assets\Scripts\Editor\SimulationInspector.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>/Users/nfoster/Elements/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>

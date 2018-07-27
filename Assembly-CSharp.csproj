@@ -64,6 +64,8 @@
     <Compile Include="Assets\Scripts\Elements\Water.cs" />
     <Compile Include="Assets\Scripts\Extensions\ListExtensions.cs" />
     <Compile Include="Assets\Scripts\Extensions\TransformExtensions.cs" />
+    <Compile Include="Assets\Scripts\GridSpace.cs" />
+    <Compile Include="Assets\Scripts\InputForwarding.cs" />
     <Compile Include="Assets\Scripts\Material.cs" />
     <Compile Include="Assets\Scripts\Simulation.cs" />
     <Reference Include="Unity.PackageManagerUI.Editor">
@@ -107,6 +109,9 @@
     </Reference>
     <Reference Include="UnityEngine.HotReloadModule">
       <HintPath>/Applications/Unity-2018.2.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>/Applications/Unity-2018.2.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
       <HintPath>/Applications/Unity-2018.2.0f2/Unity.app/Contents/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
