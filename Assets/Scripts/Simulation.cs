@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Elements.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,30 +7,33 @@ namespace Elements
 {
     public class Simulation : MonoBehaviour
     {
-        public static float DeltaTime
-        {
-            get { return Time.deltaTime * Config.m_deltaTimeModifier;  }
-        }
-        
+        public static float DeltaTime => Time.deltaTime * Config.m_deltaTimeModifier;
+
         public void Start()
         {
-            for (int i = 0; i < m_grid.Length; ++i)
+            ResizeGrid(2, 2);
+            
+            var width = m_grid.Count;
+            
+            for (int x = 0; x < width; ++x)
             {
-                for (int j = 0; j < m_grid[i].m_row.Length; ++j)
+                for (int y = 0; y < m_grid[x].Count; ++y)
                 {
-                    m_grid[i].m_row[j].AddRenderer();
+                    m_grid[x][y].AddRenderer();
                 }
             }
         }
         
         public void Update()
         {
+            var width = m_grid.Count;
+            
             // Simulate each grid space individually
-            for (int i = 0; i < m_grid.Length; ++i)
+            for (int x = 0; x < width; ++x)
             {
-                for (int j = 0; j < m_grid[i].m_row.Length; ++j)
+                for (int y = 0; y < m_grid[x].Count; ++y)
                 {
-                    m_grid[i].m_row[j].Update();
+                    m_grid[x][y].Update();
                 }
             }
             
@@ -37,58 +41,87 @@ namespace Elements
             // which each step affecting the one after it. Order matters right now and ideally it shouldn't.
             
             // Simulate interactions between adjacent grid spaces (no diagonal spread)
-            for (int i = 0; i < m_grid.Length; ++i)
+            for (int x = 0; x < width; ++x)
             {
-                for (int j = 0; j < m_grid[i].m_row.Length; ++j)
+                var height = m_grid[x].Count;
+                
+                for (int y = 0; y < height; ++y)
                 {
+                    var gridSpace = m_grid[x][y];
+                    
                     // Above
-                    if (i > 0)
+                    if (y > 0)
                     {
-                        m_grid[i].m_row[j].UpdateSpread(m_grid[i - 1].m_row[j]);
+                        gridSpace.UpdateSpread(m_grid[x][y - 1]);
                     }
                     
                     // Below
-                    if (i < m_grid.Length - 1)
+                    if (y < height - 1)
                     {
-                        m_grid[i].m_row[j].UpdateSpread(m_grid[i + 1].m_row[j]);
+                        gridSpace.UpdateSpread(m_grid[x][y + 1]);
                     }
                     
                     // Left
-                    if (j > 0)
+                    if (x > 0)
                     {
-                        m_grid[i].m_row[j].UpdateSpread(m_grid[i].m_row[j - 1]);
+                        gridSpace.UpdateSpread(m_grid[x - 1][y]);
                     }
                     
                     
                     // Right
-                    if (j < m_grid[i].m_row.Length - 1)
+                    if (x < width - 1)
                     {
-                        m_grid[i].m_row[j].UpdateSpread(m_grid[i].m_row[j + 1]);
+                        gridSpace.UpdateSpread(m_grid[x + 1][y]);
                     }
                 }
             }
 
-            for (int i = 0; i < m_grid.Length; ++i)
+            for (int x = 0; x < width; ++x)
             {
-                for (int j = 0; j < m_grid[i].m_row.Length; ++j)
+                for (int y = 0; y < m_grid[x].Count; ++y)
                 {
-                    m_grid[i].m_row[j].HandleDestroyStatus();
+                    m_grid[x][y].HandleDestroyStatus();
                 }
             }
         }
 
-        public GridRow[] m_grid;
-    }
+        public void ResizeGrid(int width, int height)
+        {
+            m_grid.Resize(width, null);
+            
+            for (int x = 0; x < width; ++x)
+            {
+                if (m_grid[x] == null)
+                {
+                    m_grid[x] = new List<GridSpace>(height);
+                }
+                
+                m_grid[x].Resize(height, null);
+                
+                for (int y = 0; y < height; ++y)
+                {
+                    if (m_grid[x][y] == null)
+                    {
+                        m_grid[x][y] = new GridSpace(this, x, y);
+                    }
+                }
+            }
+        }
 
-    [System.Serializable]
-    public struct GridRow
-    {
-        public GridSpace[] m_row;
+        private readonly List<List<GridSpace>> m_grid = new List<List<GridSpace>>();
     }
 
     [System.Serializable]
     public class GridSpace
     {
+        public GridSpace(Simulation simulation, int xPos, int yPos)
+        {
+            m_object = new GameObject(string.Concat("gridSpace_", xPos.ToString(), "_", yPos.ToString()));
+            m_object.transform.SetParent(simulation.transform);
+            
+            m_object.transform.SetPositionAndRotation(new Vector3(xPos, yPos, 0.0f), Quaternion.identity);
+        }
+        
         public void Update()
         {
             var components = m_object.GetComponents<Component>();
