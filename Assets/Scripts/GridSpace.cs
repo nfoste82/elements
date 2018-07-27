@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Elements;
+using UnityEditor;
 using UnityEngine;
 
 public class GridSpace
@@ -22,6 +23,8 @@ public class GridSpace
     public void OnClicked()
     {
         Debug.LogWarning("Grid Space clicked: " + m_gridPosition.x + ", " + m_gridPosition.y);
+
+        Selection.activeGameObject = m_object;
     }
     
     public void Update()
