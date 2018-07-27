@@ -83,6 +83,8 @@ namespace Elements
                     m_grid[x][y].HandleDestroyStatus();
                 }
             }
+
+            HandleInput();
         }
 
         public void ResizeGrid(int width, int height)
@@ -106,6 +108,11 @@ namespace Elements
                     }
                 }
             }
+        }
+
+        private void HandleInput()
+        {
+            
         }
 
         private readonly List<List<GridSpace>> m_grid = new List<List<GridSpace>>();
